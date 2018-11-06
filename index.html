@@ -20,24 +20,26 @@
             }
             var formAction = getParam('form_action');
             if (formAction != undefined) {
-		$("#forgot-password").attr("action", formAction);
+				$("#forgot-password").attr("action", formAction);
             }
             var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-	    alert(userAgent)
             if (/android/i.test(userAgent) || (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream)) {
-		alert("mobile");
+
                 var appLink = getParam('app_link');
                 if (appLink != undefined && passwordID != undefined) {
-		    alert("location");
                     window.location = appLink + "://?forgot-password=" + passwordID;
-                    //window.close();
                 }
             }
 
             $("#btn-save").click(function() {
                 $(".alert-danger").hide();
                 var password = $("#password").val();
-                if (password.length != 6) {
+                var password2 = $("#password2").val();
+                if (password.length != 6  || password2.length != 6) {
+                    $(".alert-danger").html("As senhas precisam ter 6 dígitos");
+                    $(".alert-danger").show();
+                } else if (password != password2) {
+                    $(".alert-danger").html("As senhas não conferem");
                     $(".alert-danger").show();
                 } else {
                     $("#forgot-password").submit();
@@ -62,6 +64,13 @@
 
 
 	</script>
+    <style type="text/css">
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body style="margin: 0 auto;">
@@ -73,41 +82,35 @@
 				<tbody>
 				<tr>
 					<td>
-						<table cellpadding="0" cellspacing="0" style="text-align: left; padding-top: 50px; padding-bottom: 50px; width: 100%; padding-left: 50px; padding-right: 50px;">
-							<tbody>
-							<!-- logo -->
-							<tr>
-								<td>
-									<img style="margin: 25px 15px;" src="https://s3-cdt-upload-bucket.s3.amazonaws.com/a0957750-0b49-4803-bd9b-9569f2e43dfb" style="width: 94px;">
-								</td>
-							</tr>
-							<!-- form -->
-							<tr>
-								<td>
-                                    <div class="modal-body">
-                                        <div class="alert alert-success" style="display: none;">
-                                            <strong>Sucesso!</strong> Sua nova senha foi redefinida.
+						<div style="text-align: left; padding-top: 50px; padding-bottom: 50px; width: 100%; padding-left: 50px; padding-right: 50px;">
+                            <div>
+                                <img style="margin: 25px 15px;" src="https://s3-cdt-upload-bucket.s3.amazonaws.com/a0957750-0b49-4803-bd9b-9569f2e43dfb" style="width: 94px;">
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="alert alert-success" style="display: none;">
+                                    <strong>Sucesso!</strong> Sua nova senha foi redefinida.
+                                </div>
+                                <div class="alert alert-danger" style="display: none;">
+                                </div>
+                                <div class="modal-form-body">
+                                    <form target="iFrameForm" action="#" method="POST" id="forgot-password" name="forgot-password">
+                                        <input type="hidden" id="id" name="id" value="" />
+                                        <div class="form-group">
+                                            <label class="col-form-label" for="password">Escolha sua nova senha</label>
+                                            <input class="form-control" name="password" id="password" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==6 && event.keyCode!=8) return false;" type=number style="-webkit-text-security:disc;" ng-model="loginData.pincode">
                                         </div>
-                                        <div class="alert alert-danger" style="display: none;">
-                                            <strong>Alerta!</strong> Sua senha é composta por 6 números.
+                                        <div class="form-group">
+                                            <label class="col-form-label" for="password2">Digite novamente sua nova senha</label>
+                                            <input class="form-control" name="password2" id="password2" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==6 && event.keyCode!=8) return false;" type=number style="-webkit-text-security:disc;" ng-model="loginData.pincode">
                                         </div>
-                                        <div class="modal-form-body">
-                                            <form target="iFrameForm" action="#" method="POST" id="forgot-password" name="forgot-password">
-                                                <input type="hidden" id="id" name="id" value="" />
-                                                <div class="form-group">
-                                                    <label class="col-form-label" for="password">Escolha sua nova senha</label>
-                                                    <input type="text" class="form-control" name="password" id="password" maxlength="6" minlength="6" onkeyup="this.value=this.value.replace(/[^\d]/,'')">
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" id="btn-save">Salvar</button>
-                                    </div>
-								</td>
-							</tr>
-							</tbody>
-						</table>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="btn-save">Salvar</button>
+                            </div>
+						</div>
 					</td>
 				</tr>
 				</tbody>

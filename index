@@ -1,0 +1,119 @@
+<html>
+<head>
+	<title>Merci</title>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<meta content="width=device-width" name="viewport">
+	<style media="screen and (max-width: 580px)">
+		@media screen and (max-width: 580px) {}
+	</style>
+
+    <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+	<script>
+        window.onload = function() {
+            var passwordID = getParam("id");
+            if (passwordID != undefined) {
+                $("#id").val(passwordID);
+            }
+            var formAction = getParam('form_action');
+            if (formAction != undefined) {
+				$("#forgot-password").attr("action", formAction);
+            }
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            if (/android/i.test(userAgent) || (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream)) {
+
+                var appLink = getParam('app_link');
+                if (appLink != undefined && passwordID != undefined) {
+                    window.location = appLink + "//?forgot-password=" + passwordID;
+                    window.close();
+                }
+            }
+
+            $("#btn-save").click(function() {
+                $(".alert-danger").hide();
+                var password = $("#password").val();
+                if (password.length != 6) {
+                    $(".alert-danger").show();
+                } else {
+                    $("#forgot-password").submit();
+                    $(".alert-success").show();
+
+                    $(".modal-form-body").hide();
+                    $(".modal-footer").hide();
+                }
+            });
+        };
+        function getParam( name )
+        {
+            name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+            var regexS = "[\\?&]"+name+"=([^&#]*)";
+            var regex = new RegExp( regexS );
+            var results = regex.exec( window.location.href );
+            if( results == null )
+                return "";
+            else
+                return results[1];
+        }
+
+
+	</script>
+</head>
+
+<body style="margin: 0 auto;">
+<table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: 100%; text-align: center;">
+	<tbody>
+	<tr style="background-color: #f9f9f9;">
+		<td>
+			<table align="center" cellpadding="0" cellspacing="0" id="body" style="background-color: #fff; width: 100%; max-width: 580px; border: 1px solid #DBDAE3;">
+				<tbody>
+				<tr>
+					<td>
+						<table cellpadding="0" cellspacing="0" style="text-align: left; padding-top: 50px; padding-bottom: 50px; width: 100%; padding-left: 50px; padding-right: 50px;">
+							<tbody>
+							<!-- logo -->
+							<tr>
+								<td>
+									<img style="margin: 25px 15px;" src="https://s3-cdt-upload-bucket.s3.amazonaws.com/a0957750-0b49-4803-bd9b-9569f2e43dfb" style="width: 94px;">
+								</td>
+							</tr>
+							<!-- form -->
+							<tr>
+								<td>
+                                    <div class="modal-body">
+                                        <div class="alert alert-success" style="display: none;">
+                                            <strong>Sucesso!</strong> Sua nova senha foi redefinida.
+                                        </div>
+                                        <div class="alert alert-danger" style="display: none;">
+                                            <strong>Alerta!</strong> Sua senha é composta por 6 números.
+                                        </div>
+                                        <div class="modal-form-body">
+                                            <form target="iFrameForm" action="#" method="POST" id="forgot-password" name="forgot-password">
+                                                <input type="hidden" id="id" name="id" value="" />
+                                                <div class="form-group">
+                                                    <label class="col-form-label" for="password">Escolha sua nova senha</label>
+                                                    <input type="text" class="form-control" name="password" id="password" maxlength="6" minlength="6" onkeyup="this.value=this.value.replace(/[^\d]/,'')">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" id="btn-save">Salvar</button>
+                                    </div>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</td>
+	</tr>
+	</tbody>
+</table>
+<iframe name="iFrameForm" src="" style="display: none;"></iframe>
+</body>
+</html>

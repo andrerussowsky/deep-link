@@ -23,13 +23,13 @@
 		$("#forgot-password").attr("action", formAction);
             }
             var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-		alert("userAgent")
+	    alert(userAgent)
             if (/android/i.test(userAgent) || (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream)) {
 		alert("mobile");
                 var appLink = getParam('app_link');
                 if (appLink != undefined && passwordID != undefined) {
 		    alert("location");
-                    window.location = appLink + "//?forgot-password=" + passwordID;
+                    window.location = appLink + "://?forgot-password=" + passwordID;
                     //window.close();
                 }
             }

@@ -31,6 +31,10 @@
                 }
             }
 
+            var iFrame = document.getElementById("forgot-password");
+            iFrame.onload = function() {
+                alert("aaa")
+            }
             $("#btn-save").click(function() {
                 $(".alert-danger").hide();
                 var password = $("#password").val();
